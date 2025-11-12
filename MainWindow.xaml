@@ -1,0 +1,108 @@
+﻿<Window x:Class="StartRight.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Start Right - Startup Manager" Height="600" Width="900"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="10" Background="#f8f8f8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <Grid Grid.Row="0" Margin="0,0,0,15" Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Grid.Column="0" Text="🚀 Start Right - User Startup Manager" 
+                       FontSize="24" FontWeight="Bold" 
+                       Foreground="#5e35b1" VerticalAlignment="Center" Margin="15"/>
+            
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="15">
+                <TextBlock x:Name="AdminStatusText" Text=" (Standard User)" 
+                          Foreground="Orange" FontWeight="SemiBold" Margin="5,0"/>
+                <Button x:Name="RunAsAdminButton" Content="Run as Admin" 
+                       Click="RunAsAdmin_Click" Margin="10,0,0,0"
+                       Background="#ff9800" Foreground="White" Width="100" Height="30"/>
+                <Button x:Name="RefreshButton" Content="Refresh" 
+                       Click="RefreshList_Click" Margin="5,0,0,0"
+                       Background="#2196f3" Foreground="White" Width="80" Height="30"/>
+                <Button x:Name="SaveChangesButton" Content="Save Changes" 
+                       Click="SaveChanges_Click" Margin="5,0,0,0"
+                       Background="#4caf50" Foreground="White" Width="100" Height="30"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Main Content - Startup List -->
+        <GroupBox Grid.Row="1" Header="Current User Startup Programs" Margin="0,0,0,10" 
+                  BorderBrush="#e0e0e0" BorderThickness="1">
+            <ListView x:Name="StartupListView" Background="Transparent" BorderThickness="0">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Enabled" Width="60">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding Enabled}" 
+                                              Click="ToggleStartup_Click"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                        <GridViewColumn Header="Path" Width="400" DisplayMemberBinding="{Binding Path}"/>
+                        <GridViewColumn Header="Location Type" Width="100" DisplayMemberBinding="{Binding LocationType}"/>
+                        <GridViewColumn Header="Actions" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Remove" 
+                                            Click="RemoveStartup_Click" 
+                                            Background="#ef5350" Foreground="White"
+                                            BorderThickness="0" Width="60" Height="25"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+
+        <!-- Add New Program Section -->
+        <GroupBox Grid.Row="2" Header="Add New Program to Startup" Margin="0,0,0,10" 
+                  BorderBrush="#e0e0e0" BorderThickness="1">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" Text="Program Path:" Margin="0,0,0,5" Foreground="#333"/>
+                <TextBox x:Name="ProgramPathTextBox" Grid.Row="1" Grid.Column="0" 
+                        Margin="0,0,5,0" Height="30" FontSize="14"
+                        IsReadOnly="True" Background="#fefefe" BorderBrush="#ccc"/>
+                <Button x:Name="BrowseButton" Grid.Row="1" Grid.Column="1" Content="Browse..." 
+                       Click="BrowseProgram_Click" Margin="0,0,5,0" 
+                       Background="#4caf50" Foreground="White" Width="80" Height="30"/>
+                <Button x:Name="AddStartupButton" Grid.Row="1" Grid.Column="2" Content="Add to Startup" 
+                       Click="AddStartup_Click" 
+                       Background="#5e35b1" Foreground="White" Width="100" Height="30"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- Status Bar -->
+        <StatusBar Grid.Row="3" Background="#e0e0e0">
+            <StatusBarItem>
+                <TextBlock x:Name="StatusText" Text="Ready - Double-click program to open location" Foreground="#444" Margin="10,5"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
